@@ -1,0 +1,529 @@
+
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#087f5b">
+<meta name="description" content="Isoko Online Rwanda - Gura kandi ugurishe ibicuruzwa mu Rwanda.">
+<title>Isoko Online Rwanda</title>
+
+<style>
+:root{--green:#087f5b;--dark:#07543e;--light:#eff8f2;--text:#1d2924;--muted:#65736b;--border:#dfe9e2}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f8faf8;color:var(--text);line-height:1.6}
+.container{width:min(1100px,92%);margin:auto}
+header{background:white;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:5}
+nav{min-height:68px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 0}
+.logo{font-size:20px;font-weight:800;color:var(--green)}
+.links{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+a{color:inherit;text-decoration:none}
+.links a:hover{color:var(--green)}
+button,.btn{border:0;border-radius:8px;padding:11px 15px;background:var(--green);color:white;font-weight:bold;cursor:pointer;display:inline-block;text-align:center}
+button:hover,.btn:hover{background:var(--dark)}
+input,select,textarea{width:100%;padding:12px;border:1px solid #cfdcd3;border-radius:8px;background:white;font:inherit}
+input:focus,select:focus,textarea:focus{outline:2px solid #9bd6b8}
+.hero{padding:55px 0;background:linear-gradient(130deg,#e2f5e9,#f8fcf9)}
+.hero-inner{max-width:720px}
+.eyebrow{color:var(--green);font-weight:bold;text-transform:uppercase;font-size:13px}
+h1{font-size:clamp(30px,5vw,48px);line-height:1.15;margin:12px 0}
+h2{margin:0 0 8px;font-size:25px}
+p{margin:8px 0}
+.muted{color:var(--muted)}
+.search{display:flex;gap:10px;margin-top:22px}
+.search input{flex:1;min-width:0}
+section{padding:38px 0}
+.heading{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.categories{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
+.categories button{background:white;color:var(--green);border:1px solid var(--green);border-radius:30px}
+.categories button.active{background:var(--green);color:white}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.card{background:white;border:1px solid var(--border);border-radius:12px;overflow:hidden;min-width:0}
+.product-img{height:185px;width:100%;object-fit:cover;background:#e8f2eb;display:block}
+.card-body{padding:14px}
+.card h3{margin:0 0 5px;font-size:17px;overflow-wrap:anywhere}
+.price{font-size:19px;color:var(--green);font-weight:bold;margin:8px 0}
+.card p{font-size:14px;color:var(--muted);overflow-wrap:anywhere}
+.card .btn,.card button{width:100%;margin-top:8px}
+.shop-icon{height:85px;background:#e6f5ec;display:grid;place-items:center;font-size:40px}
+.panel{background:white;border:1px solid var(--border);border-radius:12px;padding:20px}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:14px;font-weight:bold}
+.full{grid-column:1/-1}
+.notice{padding:12px;border-radius:8px;background:#fff5dc;color:#715300;font-size:14px;margin:12px 0}
+.empty{grid-column:1/-1;padding:25px;text-align:center;border:1px dashed #cbd9cf;border-radius:10px;background:white;color:var(--muted)}
+.stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.stat{padding:12px 16px;background:white;border:1px solid var(--border);border-radius:9px;min-width:125px}
+.stat strong{display:block;font-size:23px;color:var(--green)}
+footer{background:#102a20;color:white;padding:28px 0;margin-top:25px}
+footer p{color:#d2e2d9;font-size:14px}
+#toast{display:none;position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#163c2b;color:white;padding:12px 18px;border-radius:9px;z-index:20;max-width:92%;width:max-content}
+@media(max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{padding:38px 0}nav{justify-content:center}.links{justify-content:center}}
+@media(max-width:520px){.grid,.form-grid{grid-template-columns:1fr}.full{grid-column:auto}.search{flex-direction:column}.product-img{height:220px}.links{gap:10px}.stat{flex:1}}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="container">
+    <nav>
+      <a class="logo" href="#home">🛍️ Isoko Online Rwanda</a>
+      <div class="links">
+        <a href="#ibicuruzwa">Ibicuruzwa</a>
+        <a href="#amaduka">Amaduka</a>
+        <a href="#umucuruzi">Gurisha</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="home">
+  <div class="container hero-inner">
+    <span class="eyebrow">Isoko ryo kuri internet mu Rwanda</span>
+    <h1>Gura kandi ugurishe byoroshye.</h1>
+    <p class="muted">Shakisha ibicuruzwa, menya amaduka kandi uvugane n'abacuruzi kuri WhatsApp.</p>
+    <form class="search" id="searchForm">
+      <input id="searchInput" type="search" placeholder="Shakisha igicuruzwa cyangwa iduka..." aria-label="Shakisha">
+      <button type="submit">Shakisha</button>
+    </form>
+    <div class="stats">
+      <div class="stat"><strong id="productCount">0</strong>Ibicuruzwa</div>
+      <div class="stat"><strong id="shopCount">0</strong>Amaduka</div>
+    </div>
+  </div>
+</section>
+
+<section id="ibicuruzwa">
+  <div class="container">
+    <div class="heading">
+      <div><h2>Ibicuruzwa</h2><p class="muted">Reba ibicuruzwa byashyizwe ku isoko.</p></div>
+    </div>
+    <div class="categories" id="categories">
+      <button class="active" data-cat="Byose" type="button">Byose</button>
+      <button data-cat="Telefoni" type="button">Telefoni</button>
+      <button data-cat="Imyenda" type="button">Imyenda</button>
+      <button data-cat="Ibiribwa" type="button">Ibiribwa</button>
+      <button data-cat="Ibikoresho" type="button">Ibikoresho</button>
+      <button data-cat="Ibindi" type="button">Ibindi</button>
+    </div>
+    <div class="grid" id="productsGrid"></div>
+  </div>
+</section>
+
+<section id="amaduka" style="background:#eef6f1">
+  <div class="container">
+    <h2>Amaduka</h2>
+    <p class="muted">Amaduka yiyandikishije kuri uru rubuga.</p>
+    <div class="grid" id="shopsGrid" style="margin-top:18px"></div>
+  </div>
+</section>
+
+<section id="umucuruzi">
+  <div class="container">
+    <h2>Iyandikishe nk'umucuruzi</h2>
+    <p class="muted">Andika amakuru y'iduka ryawe, hanyuma wongere ibicuruzwa.</p>
+    <div class="panel">
+      <div class="notice">Iyi verisiyo ibika amakuru muri browser y'igikoresho ukoresha. Ntabwo ari konti nyayo kandi amakuru ntahita asangizwa abandi bantu kuri internet.</div>
+      <form id="sellerForm">
+        <div class="form-grid">
+          <div class="field">
+            <label for="shopName">Izina ry'iduka *</label>
+            <input id="shopName" required maxlength="80" placeholder="Urugero: Isoko rya Kigali">
+          </div>
+          <div class="field">
+            <label for="sellerName">Izina ry'umucuruzi *</label>
+            <input id="sellerName" required maxlength="80" placeholder="Amazina yawe">
+          </div>
+          <div class="field">
+            <label for="sellerPhone">Telefoni ya WhatsApp *</label>
+            <input id="sellerPhone" required type="tel" placeholder="0780000000">
+          </div>
+          <div class="field">
+            <label for="shopLocation">Aho iduka riherereye *</label>
+            <input id="shopLocation" required maxlength="100" placeholder="Urugero: Kigali, Remera">
+          </div>
+          <div class="full">
+            <button type="submit">Iyandikishe / Bika iduka</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section id="ongeraho">
+  <div class="container">
+    <h2>Ongeraho igicuruzwa</h2>
+    <p class="muted">Banza wiyandikishe nk'umucuruzi kuri iki gikoresho.</p>
+    <div class="panel">
+      <form id="productForm">
+        <div class="form-grid">
+          <div class="field">
+            <label for="productName">Izina ry'igicuruzwa *</label>
+            <input id="productName" required maxlength="100" placeholder="Urugero: Telefoni">
+          </div>
+          <div class="field">
+            <label for="productPrice">Igiciro mu mafaranga y'u Rwanda (RWF) *</label>
+            <input id="productPrice" type="number" min="1" step="1" required placeholder="25000">
+          </div>
+          <div class="field">
+            <label for="productCategory">Icyiciro *</label>
+            <select id="productCategory" required>
+              <option value="Telefoni">Telefoni</option>
+              <option value="Imyenda">Imyenda</option>
+              <option value="Ibiribwa">Ibiribwa</option>
+              <option value="Ibikoresho">Ibikoresho</option>
+              <option value="Ibindi">Ibindi</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="productImage">Link y'ifoto (si ngombwa)</label>
+            <input id="productImage" type="url" placeholder="https://example.com/photo.jpg">
+          </div>
+          <div class="field full">
+            <label for="productDescription">Ibisobanuro by'igicuruzwa</label>
+            <textarea id="productDescription" rows="3" maxlength="500" placeholder="Andika ibisobanuro..."></textarea>
+          </div>
+          <div class="full">
+            <button type="submit">Shyira igicuruzwa ku isoko</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>Uko uru rubuga rukora</h2>
+    <div class="panel" style="margin-top:14px">
+      <p><strong>1.</strong> Umuguzi ashakisha igicuruzwa.</p>
+      <p><strong>2.</strong> Umuguzi areba igiciro n'amakuru y'iduka.</p>
+      <p><strong>3.</strong> Umuguzi akanda kuri WhatsApp akavugana n'umucuruzi.</p>
+      <p><strong>4.</strong> Umucuruzi ashobora kongeramo ibicuruzwa kuri iki gikoresho.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container">
+    <a class="logo" href="#home" style="color:white">Isoko Online Rwanda</a>
+    <p>Duhuza abaguzi n'abacuruzi mu Rwanda.</p>
+    <p>© <span id="year"></span> Isoko Online Rwanda. Uburenganzira bwose burabitswe.</p>
+    <p>Uru ni urubuga rw'itangiriro; genzura amakuru y'ibicuruzwa n'abacuruzi mbere yo kugura.</p>
+  </div>
+</footer>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+"use strict";
+
+const STORAGE_KEY = "isokoOnlineRwandaDataV1";
+
+const starterData = {
+  shops: [],
+  products: []
+};
+
+let data = loadData();
+let currentCategory = "Byose";
+let currentSearch = "";
+
+function loadData() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (parsed && Array.isArray(parsed.shops) && Array.isArray(parsed.products)) {
+        return parsed;
+      }
+    }
+  } catch (error) {
+    console.warn("Data storage is unavailable.", error);
+  }
+  return {
+    shops: [...starterData.shops],
+    products: [...starterData.products]
+  };
+}
+
+function saveData() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    return true;
+  } catch (error) {
+    showToast("Ntibishobotse kubika amakuru muri browser.");
+    return false;
+  }
+}
+
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.style.display = "block";
+  window.clearTimeout(showToast.timer);
+  showToast.timer = window.setTimeout(() => {
+    toast.style.display = "none";
+  }, 3200);
+}
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function safeImageURL(value) {
+  try {
+    const url = new URL(value);
+    if (url.protocol === "https:" || url.protocol === "http:") {
+      return url.href;
+    }
+  } catch (error) {}
+  return "";
+}
+
+function formatPrice(price) {
+  return Number(price).toLocaleString("en-US") + " RWF";
+}
+
+function normaliseRwandaPhone(value) {
+  let phone = String(value).replace(/\D/g, "");
+
+  if (phone.startsWith("00")) phone = phone.slice(2);
+  if (phone.startsWith("0")) phone = "250" + phone.slice(1);
+  if (phone.startsWith("7") && phone.length === 9) phone = "250" + phone;
+
+  if (!phone.startsWith("250") || phone.length !== 12) return "";
+  return phone;
+}
+
+function getShop(shopId) {
+  return data.shops.find(shop => shop.id === shopId);
+}
+
+function renderProducts() {
+  const grid = document.getElementById("productsGrid");
+
+  const products = data.products.filter(product => {
+    const shop = getShop(product.shopId);
+    const text = [
+      product.name,
+      product.category,
+      product.description,
+      shop ? shop.name : "",
+      shop ? shop.location : ""
+    ].join(" ").toLowerCase();
+
+    const matchesSearch = text.includes(currentSearch.toLowerCase());
+    const matchesCategory =
+      currentCategory === "Byose" || product.category === currentCategory;
+
+    return matchesSearch && matchesCategory;
+  });
+
+  document.getElementById("productCount").textContent = data.products.length;
+
+  if (!products.length) {
+    grid.innerHTML = '<div class="empty">Nta bicuruzwa bibonetse. Gerageza ikindi ushakisha cyangwa wongere igicuruzwa.</div>';
+    return;
+  }
+
+  grid.innerHTML = products.map(product => {
+    const shop = getShop(product.shopId);
+    const image = safeImageURL(product.image);
+    const shopName = shop ? shop.name : "Iduka";
+    const location = shop ? shop.location : "";
+    const phone = shop ? shop.phone : "";
+
+    const imageMarkup = image
+      ? `<img class="product-img" src="${escapeHTML(image)}" alt="${escapeHTML(product.name)}" loading="lazy">`
+      : `<div class="product-img" style="display:grid;place-items:center;font-size:55px">🛍️</div>`;
+
+    const whatsappMarkup = phone
+      ? `<a class="btn" href="${escapeHTML(makeWhatsAppURL(phone, product.name))}" target="_blank" rel="noopener noreferrer">Vugana kuri WhatsApp</a>`
+      : `<button type="button" disabled style="opacity:.6">WhatsApp ntirashyirwaho</button>`;
+
+    return `
+      <article class="card">
+        ${imageMarkup}
+        <div class="card-body">
+          <h3>${escapeHTML(product.name)}</h3>
+          <div class="price">${formatPrice(product.price)}</div>
+          <p>${escapeHTML(product.description || "Vugana n'umucuruzi umenye ibindi.")}</p>
+          <p><strong>Iduka:</strong> ${escapeHTML(shopName)}</p>
+          <p><strong>Aho riherereye:</strong> ${escapeHTML(location)}</p>
+          ${whatsappMarkup}
+        </div>
+      </article>`;
+  }).join("");
+}
+
+function makeWhatsAppURL(phone, productName) {
+  const number = normaliseRwandaPhone(phone);
+  if (!number) return "#";
+  const message = "Muraho, ndifuza kumenya amakuru kuri: " + productName;
+  return "https://wa.me/" + number + "?text=" + encodeURIComponent(message);
+}
+
+function renderShops() {
+  const grid = document.getElementById("shopsGrid");
+  document.getElementById("shopCount").textContent = data.shops.length;
+
+  if (!data.shops.length) {
+    grid.innerHTML = '<div class="empty">Nta duka rirashyirwaho. Ba umucuruzi wa mbere wiyandikishe hano hejuru.</div>';
+    return;
+  }
+
+  grid.innerHTML = data.shops.map(shop => `
+    <article class="card">
+      <div class="shop-icon">🏪</div>
+      <div class="card-body">
+        <h3>${escapeHTML(shop.name)}</h3>
+        <p><strong>Umucuruzi:</strong> ${escapeHTML(shop.seller)}</p>
+        <p><strong>Aho riherereye:</strong> ${escapeHTML(shop.location)}</p>
+        <p><strong>Ibicuruzwa:</strong> ${data.products.filter(p => p.shopId === shop.id).length}</p>
+        <a class="btn" href="${escapeHTML(makeWhatsAppURL(shop.phone, "ibicuruzwa by'iduka"))}" target="_blank" rel="noopener noreferrer">Vugana n'iduka</a>
+      </div>
+    </article>
+  `).join("");
+}
+
+document.getElementById("searchForm").addEventListener("submit", event => {
+  event.preventDefault();
+  currentSearch = document.getElementById("searchInput").value.trim();
+  renderProducts();
+  document.getElementById("ibicuruzwa").scrollIntoView({behavior:"smooth"});
+});
+
+document.getElementById("searchInput").addEventListener("input", event => {
+  currentSearch = event.target.value.trim();
+  renderProducts();
+});
+
+document.getElementById("categories").addEventListener("click", event => {
+  const button = event.target.closest("button[data-cat]");
+  if (!button) return;
+
+  currentCategory = button.dataset.cat;
+
+  document.querySelectorAll("#categories button").forEach(item => {
+    item.classList.toggle("active", item === button);
+  });
+
+  renderProducts();
+});
+
+document.getElementById("sellerForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const name = document.getElementById("shopName").value.trim();
+  const seller = document.getElementById("sellerName").value.trim();
+  const phoneInput = document.getElementById("sellerPhone").value.trim();
+  const location = document.getElementById("shopLocation").value.trim();
+  const phone = normaliseRwandaPhone(phoneInput);
+
+  if (!name || !seller || !location) {
+    showToast("Uzuza ibisabwa byose.");
+    return;
+  }
+
+  if (!phone) {
+    showToast("Andika nimero yo mu Rwanda ikora, urugero 0780000000.");
+    return;
+  }
+
+  const shop = {
+    id: "shop_" + Date.now(),
+    name,
+    seller,
+    phone,
+    location
+  };
+
+  data.shops.push(shop);
+
+  if (!saveData()) {
+    data.shops = data.shops.filter(item => item.id !== shop.id);
+    return;
+  }
+
+  event.target.reset();
+  renderShops();
+  renderProducts();
+  showToast("Iduka ryabitswe muri browser yawe.");
+});
+
+document.getElementById("productForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  if (!data.shops.length) {
+    showToast("Banza wiyandikishe nk'umucuruzi.");
+    document.getElementById("umucuruzi").scrollIntoView({behavior:"smooth"});
+    return;
+  }
+
+  const name = document.getElementById("productName").value.trim();
+  const price = Number(document.getElementById("productPrice").value);
+  const category = document.getElementById("productCategory").value;
+  const imageInput = document.getElementById("productImage").value.trim();
+  const description = document.getElementById("productDescription").value.trim();
+  const image = imageInput ? safeImageURL(imageInput) : "";
+
+  if (!name || !Number.isFinite(price) || price <= 0) {
+    showToast("Andika izina n'igiciro nyacyo.");
+    return;
+  }
+
+  if (imageInput && !image) {
+    showToast("Link y'ifoto igomba gutangirana na http:// cyangwa https://.");
+    return;
+  }
+
+  const product = {
+    id: "product_" + Date.now(),
+    shopId: data.shops[data.shops.length - 1].id,
+    name,
+    price,
+    category,
+    image,
+    description
+  };
+
+  data.products.push(product);
+
+  if (!saveData()) {
+    data.products = data.products.filter(item => item.id !== product.id);
+    return;
+  }
+
+  event.target.reset();
+  currentCategory = "Byose";
+  currentSearch = "";
+  document.getElementById("searchInput").value = "";
+  document.querySelectorAll("#categories button").forEach(button => {
+    button.classList.toggle("active", button.dataset.cat === "Byose");
+  });
+
+  renderProducts();
+  renderShops();
+  showToast("Igicuruzwa cyongewe ku isoko kuri iki gikoresho.");
+  document.getElementById("ibicuruzwa").scrollIntoView({behavior:"smooth"});
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
+
+renderProducts();
+renderShops();
+</script>
+</body>
+</html>
