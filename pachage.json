@@ -1,0 +1,17 @@
+
+{
+  "name": "isoko-online-rwanda",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Isoko Online Rwanda - Online marketplace for products and stores",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "isoko",
+    "rwanda",
+    "online-marketplace",
+    "ecommerce"
+  ],
+  "license": "UNLICENSED"
+}
