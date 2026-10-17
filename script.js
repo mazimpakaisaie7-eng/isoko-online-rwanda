@@ -8,8 +8,8 @@
 
 // 1. SUPABASE CONFIGURATION
 // Replace these two values with your actual Supabase credentials.
-const SUPABASE_URL = "YOUR_SUPABASE_PROJECT_URL";
-const SUPABASE_PUBLISHABLE_KEY = "YOUR_SUPABASE_PUBLISHABLE_KEY";
+const SUPABASE_URL = "https://brpcjntuztqfkfmgiizk.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_GKt3hYuWU3O-Ewl40Q-AjA_zvxtHFAJ";
 
 let supabaseClient = null;
 
