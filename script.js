@@ -7,6 +7,7 @@
 "use strict";
 
 // 1. SUPABASE CONFIGURATION
+// Replace these two values with your actual Supabase credentials.
 const SUPABASE_URL = "YOUR_SUPABASE_PROJECT_URL";
 const SUPABASE_PUBLISHABLE_KEY = "YOUR_SUPABASE_PUBLISHABLE_KEY";
 
@@ -18,9 +19,10 @@ function initializeSupabase() {
     return supabaseClient;
   }
 
-  if (!window.supabase?.createClient) {
-    console.error("Supabase library is not loaded.");
-    return null;
+  if (!window.supabase || !window.supabase.createClient) {
+    throw new Error(
+      "Supabase library is not loaded. Check the Supabase CDN script in index.html."
+    );
   }
 
   if (
@@ -29,8 +31,9 @@ function initializeSupabase() {
     !SUPABASE_PUBLISHABLE_KEY ||
     SUPABASE_PUBLISHABLE_KEY.includes("YOUR_SUPABASE")
   ) {
-    console.error("Please configure your Supabase URL and key.");
-    return null;
+    throw new Error(
+      "Configure your actual Supabase Project URL and Publishable key in script.js."
+    );
   }
 
   supabaseClient = window.supabase.createClient(
@@ -44,10 +47,6 @@ function initializeSupabase() {
 // 3. READ STORES
 async function getStores() {
   const client = initializeSupabase();
-
-  if (!client) {
-    throw new Error("Supabase is not configured.");
-  }
 
   const { data, error } = await client
     .from("stores")
@@ -64,10 +63,6 @@ async function getStores() {
 // 4. READ PRODUCTS
 async function getProducts() {
   const client = initializeSupabase();
-
-  if (!client) {
-    throw new Error("Supabase is not configured.");
-  }
 
   const { data, error } = await client
     .from("products")
@@ -86,24 +81,20 @@ async function checkSupabaseConnection() {
   try {
     const client = initializeSupabase();
 
-    if (!client) {
-      return false;
-    }
-
     const { error } = await client
       .from("stores")
       .select("id")
       .limit(1);
 
     if (error) {
-      console.error("Database check failed:", error.message);
+      console.error("Database connection check failed:", error.message);
       return false;
     }
 
     console.log("Supabase connection successful.");
     return true;
   } catch (error) {
-    console.error("Connection error:", error.message);
+    console.error("Supabase connection error:", error.message);
     return false;
   }
 }
