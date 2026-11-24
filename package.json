@@ -1,13 +1,9 @@
 {
   "name": "isoko-online-rwanda",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "private": true,
-  "description": "Mobile-first Rwandan marketplace with Supabase and secure Pi payment integration.",
-  "engines": {
-    "node": ">=20"
-  },
-  "scripts": {
-    "check": "node --check script.js && node --check lib/pi.js && node --check api/pi/auth.js && node --check api/pi/approve.js && node --check api/pi/complete.js && node --check api/orders-create.js"
-  },
+  "description": "Mobile-first Rwanda marketplace with Supabase, RWF prices, product images and WhatsApp seller contact.",
+  "engines": { "node": ">=20" },
+  "scripts": { "check": "node --check script.js" },
   "license": "UNLICENSED"
 }

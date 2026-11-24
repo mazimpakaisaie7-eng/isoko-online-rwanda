@@ -1,107 +1,72 @@
-# Isoko Online Rwanda 🇷🇼 — v2.0
+# Isoko Online Rwanda 🇷🇼 — v2.1
 
-A mobile-first Rwandan marketplace frontend with Supabase authentication/data and a server-verified Pi Network User-to-App payment flow.
+A mobile-first marketplace for everyday products in Rwanda. Prices are entered and displayed in Rwandan francs (RWF). Buyers can browse listings, filter categories, search, add products to a cart and contact the seller through WhatsApp.
+
+## Product categories
+
+- Food and drinks: water, cooking oil, rice, sugar, milk and other household basics.
+- Beauty and hygiene: body lotion, perfume, soap and personal-care products.
+- Men's and women's clothing, children's clothing and shoes.
+- Bags, phones, radios and other small electronics.
+- Household goods and second-hand/occasion items.
+
+The home page contains clearly labelled sample listings when the database has no live listings. Sample items are examples only: they are not seller offers, cannot be ordered and must not be treated as verified prices or stock.
 
 ## Included
 
-- Responsive marketplace home page, search and category filters.
-- Public product and store listings.
-- Email/password account registration and sign-in through Supabase Auth.
-- Seller store registration and product publishing.
-- Shopping cart with quantity controls.
-- Pi Browser SDK authentication (`username`, `payments`).
-- Server-side Pi identity verification (`GET /v2/me`).
-- Pi U2A payment flow: server approval, Pioneer confirmation in Pi Wallet, server completion.
-- Server-side order pricing from the database (the browser cannot choose the authoritative total).
-- Supabase RLS policies and a public product image bucket definition.
+- Responsive mobile-first homepage, search and category filters.
+- Supabase email/password sign-up and sign-in.
+- Seller store registration with district/location and WhatsApp contact.
+- Product publishing with RWF price, category, stock, new/occasion condition and photo upload.
+- Public image storage bucket (`isoko-products`).
+- Shopping cart and WhatsApp order enquiry for products from one store.
+- Supabase Row Level Security policies for public listings and seller-owned writes.
 - Privacy and Terms starter pages.
 
-## Important: this ZIP is a deployable codebase, not an already activated Pi app
+## 1. Supabase setup (required for real listings)
 
-Pi Network must approve/register the app and issue its Server API Key and app wallet. The operator must configure Supabase, run the SQL migration, set Vercel secrets, deploy, test in Pi Sandbox, and complete Pi's production/domain checks. No ZIP can guarantee hackathon selection, Pi listing, income, USDT/Pi awards or payment approval.
-
-## 1. Supabase setup
-
-This project uses the existing Supabase project configured in `script.js`. The browser key in that file is a publishable/anon key; it is not a service-role secret.
-
-1. Open the Supabase project dashboard.
+1. Open the Supabase project used by this app.
 2. Open **SQL Editor**.
-3. Run the complete file `database/schema.sql`.
-4. In **Authentication → Providers**, enable Email. Configure email confirmation and a real sender before public launch.
-5. In **Authentication → URL Configuration**, add your deployed HTTPS site URL and the required redirect URLs.
-6. In **Project Settings → API**, copy the project URL, publishable/anon key and service-role key. Never share or publish the service-role key.
+3. Paste and run the complete `schema.sql` file from this ZIP. It creates/updates `isoko_stores`, `isoko_products`, RLS policies and the `isoko-products` image bucket. It does not delete the older `stores` or `products` tables.
+4. In **Authentication → Providers**, enable Email.
+5. In **Authentication → URL Configuration**, add the deployed HTTPS website URL to Site URL and Redirect URLs.
+6. In **Storage**, confirm the public bucket `isoko-products` exists.
 
-The migration creates new `isoko_*` tables and does not delete the existing `stores` or `products` tables. Existing legacy records are not copied automatically; migrate only after reviewing their actual columns.
+The project currently contains a Supabase publishable/anon key in `script.js`. This key is intended for browser use; access is controlled by RLS. Never place a service-role key in frontend files.
 
-## 2. Pi Developer setup
+## 2. How to add products
 
-Use the Pi Browser and the official Developer Portal: `https://develop.pinet.com`.
+1. Open the deployed site and choose **Tangira gucuruza / Start selling**.
+2. Create an account or sign in.
+3. Register your store: store name, description, district/location and WhatsApp number in international format, e.g. `2507XXXXXXXX`.
+4. Fill the product form: name, description, RWF price, category, available stock and condition (new or occasion).
+5. Select a JPG, PNG or WebP photo (maximum 5 MB), or provide a secure image URL.
+6. Press **Bika igicuruzwa**. The item will be listed publicly after Supabase accepts it.
 
-1. Register an app on **Pi Testnet** first. App network cannot be changed later, so use a separate Mainnet app for production if/when eligible.
-2. Configure the app's development URL and open it through the Pi Sandbox.
-3. Generate/copy the Server API Key from the app dashboard.
-4. Keep the SDK in sandbox mode while testing. `CONFIG.piSandbox` in `script.js` is currently `true`.
-5. Do not switch to `false` until the production app is registered, the production URL is approved, and a successful Sandbox test has been completed. Pi's production guide requires `sandbox: false` for production.
+## 3. Buyer flow
 
-Official references:
-- https://developers.minepi.com/docs/build-first-app/GettingStarted
-- https://developers.minepi.com/docs/build-first-app/RegisterApp
-- https://developers.minepi.com/docs/build-first-app/Sandbox
-- https://developers.minepi.com/docs/build-first-app/Production
-- https://developers.minepi.com/docs/accept-payment/Payments
-- https://developers.minepi.com/docs/api-reference/PlatformAPI
+Search or select a category, open the product list and add real seller listings to the cart. WhatsApp checkout currently supports products from one store at a time. The buyer and seller confirm availability, delivery, and payment arrangements directly. The website does not collect money or guarantee delivery.
 
-## 3. Vercel deployment and secrets
+## 4. Deploy to GitHub and Vercel
 
-Import the GitHub repository into Vercel (or upload this project). The static frontend is served from the project root and `/api` contains Vercel Node serverless functions.
+- Upload the contents of this folder to the root of the GitHub repository (so `index.html`, `script.js`, `style.css` and `schema.sql` are at the repository root).
+- Import or reconnect that repository in Vercel.
+- Use the project root as the Root Directory. No build command is required; this is a static site. Output Directory should be the project root / default.
+- Deploy after running the Supabase SQL migration.
 
-In **Vercel → Project → Settings → Environment Variables**, set:
+## 5. Important limitations and launch checks
 
-| Variable | Value |
-|---|---|
-| `PI_API_KEY` | Pi Developer Portal Server API Key (server secret) |
-| `PI_API_BASE` | `https://api.minepi.com/v2` |
-| `SUPABASE_URL` | Your Supabase project URL |
-| `SUPABASE_ANON_KEY` | Your Supabase publishable/anon key |
-| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service-role secret (server only) |
+- Sample products are examples only and are never stored as seller stock.
+- Prices are RWF. Pi Network checkout is not enabled in this RWF marketplace build.
+- WhatsApp checkout opens a message to the seller; it does not create a verified payment or delivery record.
+- Confirm that store phone numbers belong to the sellers and that photos/descriptions/prices are accurate.
+- Add a real monitored support contact and have the Privacy and Terms pages reviewed before public launch.
+- Test account creation, sign-in, store registration, image upload, product publishing, search, cart and WhatsApp contact on a phone.
 
-Apply to Preview and Production as appropriate, save, then redeploy. Never put `PI_API_KEY` or `SUPABASE_SERVICE_ROLE_KEY` in HTML, CSS, `script.js`, GitHub, screenshots or chat messages.
-
-API routes included:
-- `POST /api/pi/auth` — verifies Pi access token using Pi `/v2/me`.
-- `POST /api/orders-create` — verifies Supabase and Pi identities, loads product prices from Supabase and creates the order server-side.
-- `POST /api/pi/approve` — checks order, amount, Pi UID and metadata before approval.
-- `POST /api/pi/complete` — completes with Pi and marks the order paid only after Pi confirms completion.
-
-## 4. Authentication and test steps
-
-1. Deploy a Preview build.
-2. Open the site through the Pi Sandbox URL configured in the Developer Portal.
-3. Authorize the sandbox using Pi Utilities if prompted.
-4. Create a test Isoko account and confirm email if enabled.
-5. Register a test store and publish a test product.
-6. Add the product to cart and use a small Test-Pi amount.
-7. Confirm the server logs show successful order creation, Pi approval and Pi completion.
-8. Confirm the matching `isoko_orders` row changes from `pending` to `paid` only after Pi returns a completed payment.
-9. Test cancellation, insufficient test balance, wrong product/price, expired sessions and retry callbacks.
-
-Do not use a real payment until the app has passed the official Sandbox and production checks and the operator has verified legal, age/eligibility and business requirements. A Pi payment is not a promise of a refund; test with Test-Pi first.
-
-## 5. Current scope and remaining operator tasks
-
-- Product images currently accept an HTTPS image URL. The SQL creates a public `isoko-products` bucket and owner-folder upload policy, but an in-app file picker/uploader is not yet wired.
-- Delivery, stock management, refunds, seller payouts, customer dispute handling, admin moderation and order fulfillment workflows require additional business rules and implementation.
-- Product price is denominated in Pi for checkout. Do not show a RWF conversion unless a reliable, legally appropriate pricing source and conversion policy are added.
-- Privacy and Terms pages are starter templates. Add a monitored business contact address and obtain suitable local legal review before public launch.
-- Existing `stores` and `products` tables are preserved; this version reads the new `isoko_stores` and `isoko_products` tables created by the migration.
-- Pi payments require the Pi Browser and a registered app. Ordinary Chrome checkout cannot complete Pi SDK payments.
-
-## 6. Local checks
+## Local check
 
 Node.js 20+:
 
 ```bash
 npm run check
 ```
-
-The Vercel project should use Node.js 20 or later. No local `.env` file is included.
