@@ -1,589 +1,74 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <title>Isoko Online Rwanda | Shop Local</title>
-
-  <meta
-    name="description"
-    content="Discover products, explore local stores, and shop from businesses across Rwanda with Isoko Online Rwanda."
-  >
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#087f5b">
-  <meta name="robots" content="index, follow">
-
+  <meta name="description" content="Discover Rwandan products and local stores. Shop local with Isoko Online Rwanda.">
+  <meta name="robots" content="index,follow">
+  <title>Isoko Online Rwanda — Shop Local</title>
+  <link rel="icon" href="./assets/images/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./style.css">
-
-  <!-- Supabase JavaScript library -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <!-- Your existing Supabase functions -->
-  <script src="./script.js" defer></script>
+  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+  <script defer src="./script.js"></script>
 </head>
-
 <body>
-
-  <!-- HEADER -->
+  <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
-    <div class="container navbar">
-
-      <a class="site-logo" href="./index.html" aria-label="Isoko Online Rwanda home">
-        <span aria-hidden="true">🛍️</span>
-        <span>Isoko Online Rwanda</span>
-      </a>
-
-      <nav aria-label="Main navigation">
-        <a href="#home">Home</a>
-        <a href="#products">Products</a>
-        <a href="#stores">Stores</a>
-        <a href="#categories">Categories</a>
+    <div class="container header-inner">
+      <a class="brand" href="#home" aria-label="Isoko Online Rwanda home"><span class="brand-mark">I</span><span>Isoko <small>ONLINE RWANDA</small></span></a>
+      <button class="icon-button menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Open menu">☰</button>
+      <nav id="mainNav" class="main-nav" aria-label="Main navigation">
+        <a href="#products">Products</a><a href="#stores">Stores</a><a href="#sell">Sell</a>
+        <button class="nav-link" id="cartOpen">Cart <span class="cart-count" id="cartCount">0</span></button>
+        <button class="btn btn-small" id="accountOpen">Sign in</button>
       </nav>
-
     </div>
   </header>
 
-  <!-- HERO -->
-  <section class="hero" id="home">
-    <div class="container hero-content">
-
-      <h1>Discover Products from Rwanda</h1>
-
-      <p>
-        Explore local stores, discover products, and connect
-        with businesses across Rwanda.
-      </p>
-
-      <form class="search-form" id="searchForm" role="search">
-        <input
-          type="search"
-          id="searchInput"
-          placeholder="Search products or stores..."
-          aria-label="Search products or stores"
-        >
-
-        <button type="submit">Search</button>
-      </form>
-
-      <p id="searchMessage" role="status" aria-live="polite"></p>
-
-    </div>
-  </section>
-
-  <main>
-
-    <!-- CATEGORIES -->
-    <section id="categories">
-      <div class="container">
-
-        <h2 class="section-title">Explore Categories</h2>
-
-        <p class="section-description">
-          Browse products by category.
-        </p>
-
-        <div class="categories" id="categoryList">
-          <button
-            type="button"
-            class="category active"
-            data-category="all"
-            aria-pressed="true"
-          >
-            All Products
-          </button>
+  <main id="main">
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">MADE FOR RWANDA 🇷🇼</span>
+          <h1>Discover local.<br><em>Shop with purpose.</em></h1>
+          <p>Find products from Rwandan businesses, connect directly with sellers and support local shops.</p>
+          <form class="search-form" id="searchForm" role="search"><label class="sr-only" for="searchInput">Search products and stores</label><input id="searchInput" type="search" placeholder="What are you looking for?" autocomplete="off"><button class="btn" type="submit">Search</button></form>
+          <p class="hero-note" id="searchMessage" aria-live="polite">Explore products and stores across Rwanda.</p>
         </div>
-
+        <div class="hero-art" aria-hidden="true"><div class="art-circle"></div><div class="art-card art-card-one">🧺<span>Shop local</span></div><div class="art-card art-card-two">🇷🇼<span>Made in Rwanda</span></div><div class="art-bag">🛍️</div></div>
       </div>
     </section>
 
-    <!-- PRODUCTS -->
-    <section id="products">
-      <div class="container">
+    <section class="trust-strip"><div class="container trust-items"><span>🇷🇼 Rwanda-first marketplace</span><span>🔎 Easy discovery</span><span>🤝 Connect with sellers</span><span>π Pi payment support in Pi Browser</span></div></section>
 
-        <h2 class="section-title">Featured Products</h2>
+    <section class="section" id="products"><div class="container">
+      <div class="section-heading"><div><span class="eyebrow">THE MARKETPLACE</span><h2>Explore products</h2><p>Find something useful from a local seller.</p></div><button class="btn btn-outline" id="clearFilters">Clear filters</button></div>
+      <div class="category-row" id="categoryList" aria-label="Product categories"><button class="chip active" data-category="all" aria-pressed="true">All</button></div>
+      <div class="notice" id="productsStatus" role="status">Loading products…</div>
+      <div class="product-grid" id="productsGrid"></div>
+      <div class="empty-state" id="productsEmpty" hidden><div>🛍️</div><h3>No products found</h3><p>Try another search or check again later.</p></div>
+    </div></section>
 
-        <p class="section-description">
-          Discover products available from local businesses.
-        </p>
+    <section class="section section-soft" id="stores"><div class="container">
+      <div class="section-heading"><div><span class="eyebrow">LOCAL BUSINESSES</span><h2>Meet the stores</h2><p>Discover businesses and the people behind them.</p></div></div>
+      <div class="notice" id="storesStatus" role="status">Loading stores…</div><div class="store-grid" id="storesGrid"></div>
+      <div class="empty-state" id="storesEmpty" hidden><div>🏪</div><h3>No stores listed yet</h3><p>Be among the first sellers to join the marketplace.</p></div>
+    </div></section>
 
-        <div
-          class="loading"
-          id="productsLoading"
-          role="status"
-        >
-          Loading products...
-        </div>
+    <section class="section" id="sell"><div class="container sell-panel"><div><span class="eyebrow">GROW YOUR BUSINESS</span><h2>Have something to sell?</h2><p>Create an account, register your store and list your products for customers across Rwanda.</p></div><button class="btn" id="sellStart">Start selling</button></div></section>
 
-        <div
-          class="products-grid"
-          id="productsGrid"
-          aria-live="polite"
-        ></div>
-
-        <div class="empty-state" id="productsEmpty" hidden>
-          <h3>No products found</h3>
-          <p>Try another search or check back later.</p>
-        </div>
-
-        <div class="message error" id="productsError" hidden>
-          Products could not be loaded. Please try again later.
-        </div>
-
-        <button
-          type="button"
-          id="retryProducts"
-          class="btn-outline"
-          hidden
-        >
-          Try Again
-        </button>
-
-      </div>
-    </section>
-
-    <!-- STORES -->
-    <section id="stores">
-      <div class="container">
-
-        <h2 class="section-title">Discover Local Stores</h2>
-
-        <p class="section-description">
-          Explore businesses and stores listed on Isoko Online Rwanda.
-        </p>
-
-        <div
-          class="loading"
-          id="storesLoading"
-          role="status"
-        >
-          Loading stores...
-        </div>
-
-        <div
-          class="stores-grid"
-          id="storesGrid"
-          aria-live="polite"
-        ></div>
-
-        <div class="empty-state" id="storesEmpty" hidden>
-          <h3>No stores available yet</h3>
-          <p>Please check again later.</p>
-        </div>
-
-        <div class="message error" id="storesError" hidden>
-          Stores could not be loaded. Please try again later.
-        </div>
-
-        <button
-          type="button"
-          id="retryStores"
-          class="btn-outline"
-          hidden
-        >
-          Try Again
-        </button>
-
-      </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section id="about">
-      <div class="container">
-
-        <h2 class="section-title">About Isoko Online Rwanda</h2>
-
-        <p>
-          Isoko Online Rwanda helps customers discover products
-          and local businesses in Rwanda through one online platform.
-        </p>
-
-        <p>
-          Our goal is to make it easier to find local products
-          and connect customers with stores.
-        </p>
-
-      </div>
-    </section>
-
+    <section class="section section-soft" id="about"><div class="container about-grid"><div><span class="eyebrow">OUR PURPOSE</span><h2>Supporting Rwanda’s local economy</h2></div><p>Isoko Online Rwanda is a discovery marketplace that helps buyers find local products and businesses. Product availability, seller details and delivery arrangements are confirmed directly with each seller.</p></div></section>
   </main>
 
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="container footer-content">
+  <footer class="footer"><div class="container footer-inner"><div><a class="brand footer-brand" href="#home"><span class="brand-mark">I</span><span>Isoko <small>ONLINE RWANDA</small></span></a><p>Discover local. Support local.</p></div><div class="footer-links"><a href="#products">Products</a><a href="#stores">Stores</a><a href="#about">About</a><a href="./privacy.html">Privacy</a><a href="./terms.html">Terms</a></div><p>© <span id="year"></span> Isoko Online Rwanda.</p></div></footer>
 
-      <div>
-        <strong>Isoko Online Rwanda</strong>
-        <p>Discover local products. Support local businesses.</p>
-        <p>
-          &copy; <span id="currentYear"></span>
-          Isoko Online Rwanda. All rights reserved.
-        </p>
-      </div>
+  <dialog class="modal" id="accountModal"><form method="dialog" class="modal-close"><button class="icon-button" aria-label="Close">✕</button></form><div class="modal-body"><span class="eyebrow">YOUR ISOKO ACCOUNT</span><h2 id="accountTitle">Welcome back</h2><p class="muted" id="accountHint">Sign in or create a seller account.</p><form id="authForm" class="stack-form"><label>Email<input type="email" id="authEmail" required autocomplete="email"></label><label>Password<input type="password" id="authPassword" required minlength="8" autocomplete="current-password"></label><label id="authNameWrap" hidden>Your name<input id="authName" autocomplete="name"></label><div class="button-row"><button class="btn" id="authSubmit" type="submit">Sign in</button><button class="btn btn-outline" id="authMode" type="button">Create account</button></div></form><div id="accountMessage" class="notice" role="status"></div><div class="account-actions" id="accountActions" hidden><p id="signedInAs"></p><button class="btn btn-outline" id="signOut" type="button">Sign out</button></div></div></dialog>
 
-      <nav class="footer-links" aria-label="Footer navigation">
-        <a href="#home">Home</a>
-        <a href="#products">Products</a>
-        <a href="#stores">Stores</a>
-        <a href="#about">About</a>
-      </nav>
+  <dialog class="modal modal-wide" id="sellerModal"><form method="dialog" class="modal-close"><button class="icon-button" aria-label="Close">✕</button></form><div class="modal-body"><span class="eyebrow">SELLER CENTRE</span><h2 id="sellerTitle">Register your store</h2><p class="muted">Your store and products are linked to your signed-in account.</p><form id="storeForm" class="stack-form"><label>Store name<input id="storeName" required maxlength="80"></label><label>Business description<textarea id="storeDescription" maxlength="500" required></textarea></label><label>District / location<input id="storeLocation" maxlength="120" required placeholder="e.g. Gasabo, Kigali"></label><label>WhatsApp number<input id="storeWhatsapp" inputmode="tel" placeholder="2507XXXXXXXX" required></label><button class="btn" type="submit">Save store</button></form><hr><h3>Add a product</h3><form id="productForm" class="stack-form"><label>Product name<input id="productName" required maxlength="100"></label><label>Description<textarea id="productDescription" required maxlength="1000"></textarea></label><div class="two-col"><label>Price (Pi)<input id="productPrice" type="number" min="0.000001" step="0.000001" required></label><label>Category<select id="productCategory" required><option value="Food">Food</option><option value="Fashion">Fashion</option><option value="Electronics">Electronics</option><option value="Home">Home</option><option value="Beauty">Beauty</option><option value="Agriculture">Agriculture</option><option value="Other">Other</option></select></label></div><label>Image URL (optional)<input id="productImage" type="url" placeholder="https://…"></label><button class="btn" type="submit">Publish product</button></form><div id="sellerMessage" class="notice" role="status"></div></div></dialog>
 
-    </div>
-  </footer>
-
-  <!-- PAGE FUNCTIONALITY -->
-  <script>
-    "use strict";
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const $ = (id) => document.getElementById(id);
-
-      $("currentYear").textContent = new Date().getFullYear();
-
-      const state = {
-        products: [],
-        stores: [],
-        category: "all",
-        search: ""
-      };
-
-      function getText(record, keys, fallback = "") {
-        for (const key of keys) {
-          const value = record?.[key];
-
-          if (value !== undefined && value !== null &&
-              String(value).trim() !== "") {
-            return String(value).trim();
-          }
-        }
-
-        return fallback;
-      }
-
-      function makeElement(tag, className, text) {
-        const element = document.createElement(tag);
-
-        if (className) {
-          element.className = className;
-        }
-
-        if (text !== undefined && text !== null) {
-          element.textContent = text;
-        }
-
-        return element;
-      }
-
-      function makeImage(src, alt, className) {
-        const image = makeElement("img", className);
-        image.alt = alt;
-        image.loading = "lazy";
-
-        if (src) {
-          try {
-            const url = new URL(src, window.location.href);
-
-            if (["https:", "http:"].includes(url.protocol)) {
-              image.src = url.href;
-            }
-          } catch {
-            // Ignore invalid image URLs.
-          }
-        }
-
-        image.addEventListener("error", () => {
-          image.hidden = true;
-        }, { once: true });
-
-        return image;
-      }
-
-      function setVisibility(id, visible) {
-        $(id).hidden = !visible;
-      }
-
-      function normalize(value) {
-        return String(value ?? "").toLowerCase().trim();
-      }
-
-      function matchesSearch(record, keys) {
-        if (!state.search) return true;
-
-        return keys.some((key) =>
-          normalize(record?.[key]).includes(state.search)
-        );
-      }
-
-      function renderCategories() {
-        const list = $("categoryList");
-        list.replaceChildren();
-
-        const allButton = makeElement(
-          "button", "category", "All Products"
-        );
-
-        allButton.type = "button";
-        allButton.dataset.category = "all";
-        list.appendChild(allButton);
-
-        const categories = [
-          ...new Set(
-            state.products
-              .map((product) =>
-                getText(product, ["category", "category_name"])
-              )
-              .filter(Boolean)
-          )
-        ].sort((a, b) => a.localeCompare(b));
-
-        categories.forEach((category) => {
-          const button = makeElement(
-            "button", "category", category
-          );
-
-          button.type = "button";
-          button.dataset.category = category;
-          list.appendChild(button);
-        });
-
-        list.querySelectorAll("button").forEach((button) => {
-          const active = button.dataset.category === state.category;
-
-          button.classList.toggle("active", active);
-          button.setAttribute("aria-pressed", String(active));
-        });
-      }
-
-      function renderProducts() {
-        const grid = $("productsGrid");
-        grid.replaceChildren();
-
-        const products = state.products.filter((product) => {
-          const category = getText(
-            product, ["category", "category_name"]
-          );
-
-          const categoryMatches =
-            state.category === "all" ||
-            normalize(category) === normalize(state.category);
-
-          const searchMatches = matchesSearch(product, [
-            "name", "product_name", "title",
-            "description", "category", "category_name"
-          ]);
-
-          return categoryMatches && searchMatches;
-        });
-
-        products.forEach((product) => {
-          const name = getText(
-            product, ["product_name", "name", "title"],
-            "Unnamed product"
-          );
-
-          const description = getText(
-            product, ["description", "details"],
-            "Contact the store for more information."
-          );
-
-          const imageUrl = getText(
-            product, ["image_url", "image", "photo_url", "thumbnail"]
-          );
-
-          const price = getText(
-            product, ["price", "selling_price"]
-          );
-
-          const card = makeElement("article", "product-card");
-
-          if (imageUrl) {
-            card.appendChild(makeImage(
-              imageUrl, name, "product-image"
-            ));
-          }
-
-          const content = makeElement(
-            "div", "product-card-content"
-          );
-
-          content.appendChild(makeElement("h3", "", name));
-          content.appendChild(makeElement("p", "", description));
-
-          if (price) {
-            content.appendChild(makeElement(
-              "p", "price", "Price: " + price
-            ));
-          }
-
-          const storeName = getText(
-            product, ["store_name", "shop_name"]
-          );
-
-          if (storeName) {
-            content.appendChild(makeElement(
-              "p", "", "Store: " + storeName
-            ));
-          }
-
-          card.appendChild(content);
-          grid.appendChild(card);
-        });
-
-        setVisibility("productsEmpty", products.length === 0);
-        $("productsEmpty").querySelector("p").textContent =
-          state.search || state.category !== "all"
-            ? "Try a different search or category."
-            : "Products will appear here when they are available.";
-
-        $("searchMessage").textContent =
-          state.search ? products.length + " product(s) found." : "";
-      }
-
-      function renderStores() {
-        const grid = $("storesGrid");
-        grid.replaceChildren();
-
-        const stores = state.stores.filter((store) =>
-          matchesSearch(store, [
-            "store_name", "name", "title",
-            "description", "location", "address"
-          ])
-        );
-
-        stores.forEach((store) => {
-          const name = getText(
-            store, ["store_name", "name", "title"],
-            "Unnamed store"
-          );
-
-          const description = getText(
-            store, ["description", "about"],
-            "Discover this local business."
-          );
-
-          const location = getText(
-            store, ["location", "address", "district"]
-          );
-
-          const logo = getText(
-            store, ["logo_url", "image_url", "image", "photo_url"]
-          );
-
-          const card = makeElement("article", "store-card");
-
-          if (logo) {
-            card.appendChild(makeImage(logo, name, "store-logo"));
-          }
-
-          const content = makeElement(
-            "div", "store-card-content"
-          );
-
-          content.appendChild(makeElement("h3", "", name));
-          content.appendChild(makeElement("p", "", description));
-
-          if (location) {
-            content.appendChild(makeElement(
-              "p", "", "Location: " + location
-            ));
-          }
-
-          grid.appendChild(card);
-          card.appendChild(content);
-        });
-
-        setVisibility("storesEmpty", stores.length === 0);
-
-        $("storesEmpty").querySelector("p").textContent =
-          state.search
-            ? "Try another search."
-            : "Stores will appear here when they are available.";
-      }
-
-      async function loadProducts() {
-        setVisibility("productsLoading", true);
-        setVisibility("productsError", false);
-        setVisibility("retryProducts", false);
-        setVisibility("productsEmpty", false);
-
-        try {
-          if (!window.IsokoOnline) {
-            throw new Error("script.js did not load.");
-          }
-
-          state.products = await window.IsokoOnline.getProducts();
-
-          setVisibility("productsLoading", false);
-          renderCategories();
-          renderProducts();
-        } catch (error) {
-          console.error("Products loading error:", error);
-
-          setVisibility("productsLoading", false);
-          setVisibility("productsError", true);
-          setVisibility("retryProducts", true);
-        }
-      }
-
-      async function loadStores() {
-        setVisibility("storesLoading", true);
-        setVisibility("storesError", false);
-        setVisibility("retryStores", false);
-        setVisibility("storesEmpty", false);
-
-        try {
-          if (!window.IsokoOnline) {
-            throw new Error("script.js did not load.");
-          }
-
-          state.stores = await window.IsokoOnline.getStores();
-
-          setVisibility("storesLoading", false);
-          renderStores();
-        } catch (error) {
-          console.error("Stores loading error:", error);
-
-          setVisibility("storesLoading", false);
-          setVisibility("storesError", true);
-          setVisibility("retryStores", true);
-        }
-      }
-
-      $("categoryList").addEventListener("click", (event) => {
-        const button = event.target.closest("button[data-category]");
-
-        if (!button) return;
-
-        state.category = button.dataset.category;
-
-        renderCategories();
-        renderProducts();
-      });
-
-      $("searchForm").addEventListener("submit", (event) => {
-        event.preventDefault();
-
-        state.search = normalize($("searchInput").value);
-
-        renderProducts();
-        renderStores();
-      });
-
-      $("searchInput").addEventListener("input", () => {
-        state.search = normalize($("searchInput").value);
-
-        renderProducts();
-        renderStores();
-      });
-
-      $("retryProducts").addEventListener("click", loadProducts);
-      $("retryStores").addEventListener("click", loadStores);
-
-      loadProducts();
-      loadStores();
-    });
-  </script>
-
+  <dialog class="modal modal-wide" id="cartModal"><form method="dialog" class="modal-close"><button class="icon-button" aria-label="Close">✕</button></form><div class="modal-body"><span class="eyebrow">YOUR BASKET</span><h2>Shopping cart</h2><div id="cartItems"></div><div class="cart-total"><span>Total</span><strong id="cartTotal">0 π</strong></div><p class="muted small">Payments are available inside Pi Browser when the app is registered and configured. Confirm product availability and delivery with the seller.</p><button class="btn btn-pi" id="piCheckout" type="button">Pay with Pi π</button><div id="paymentMessage" class="notice" role="status"></div></div></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>
 </html>
