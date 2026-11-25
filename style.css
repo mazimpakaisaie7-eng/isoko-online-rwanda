@@ -6,19 +6,14 @@
 
 .product-condition{display:block;margin-top:6px;color:var(--muted);font-size:.76rem}.product-image{width:100%;object-fit:cover;background:#f1f5f2}.product-card{min-width:0}.product-body{min-width:0}.product-price{display:block;margin-top:8px}
 
-/* Pi Network testnet account connection */
-.pi-connect-panel{margin-top:1.25rem;padding:1rem;border:1px solid var(--border,#dce5e1);border-radius:14px;background:var(--surface-soft,#f7faf8)}
-.pi-connect-panel h3{margin:0 0 .35rem;font-size:1rem}
-.pi-connect-panel .notice{margin-top:.75rem}
-
-.admin-row{display:grid;gap:7px;padding:13px;border:1px solid var(--line);border-radius:12px;background:#fff}.admin-row small{color:var(--muted);overflow-wrap:anywhere}.admin-row .btn{justify-self:start}.stack-form .admin-row{margin-bottom:8px}
-
-
-/* WhatsApp merchant invitation panel */
-.invite-panel{margin:20px 0;padding:18px;border:1px solid var(--line);border-radius:16px;background:var(--soft)}
-.invite-panel h3{margin-top:0}
-.invite-panel>label{display:grid;gap:7px;margin:14px 0 7px;font-size:.9rem;font-weight:750}
-.invite-panel textarea{display:block;width:100%;min-height:88px;padding:11px 12px;border:1px solid #d9e2dc;border-radius:10px;background:#fff;color:var(--ink);font:inherit;resize:vertical}
-.invite-panel textarea[readonly]{background:#f8faf8}
-.invite-panel .button-row{margin-top:12px}
-.invite-panel .btn:disabled{opacity:.55;cursor:not-allowed}
+/* WhatsApp merchant invitation */
+.invite-panel{margin-top:22px;padding:25px 28px;border:1px solid #dcebe0;border-radius:20px;background:#fff;box-shadow:0 8px 28px rgba(20,55,35,.06);display:grid;grid-template-columns:1fr minmax(250px,.8fr);gap:18px 28px;align-items:center}
+.invite-panel h2{margin:5px 0 8px;font-size:1.45rem;letter-spacing:-.03em}
+.invite-panel p{margin:0;color:var(--muted)}
+.invite-form{display:grid;gap:9px}
+.invite-form label{font-size:.9rem;font-weight:700}
+.invite-form input{width:100%;padding:12px;border:1px solid #d9e2dc;border-radius:10px;font:inherit}
+.invite-form input:focus{outline:3px solid #d5eee0;border-color:var(--green)}
+.invite-form .btn{width:100%}
+.invite-panel .small{grid-column:1/-1;font-size:.8rem}
+@media(max-width:680px){.invite-panel{grid-template-columns:1fr;padding:22px 18px}.invite-panel .small{grid-column:auto}}
