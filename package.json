@@ -1,6 +1,6 @@
 {
   "name": "isoko-online-rwanda",
-  "version": "2.1.0",
+  "version": "2.4.0",
   "private": true,
   "description": "Mobile-first Rwanda marketplace with Supabase, RWF prices, product images and WhatsApp seller contact.",
   "engines": { "node": ">=20" },

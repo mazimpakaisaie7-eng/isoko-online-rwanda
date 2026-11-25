@@ -1,72 +1,50 @@
-# Isoko Online Rwanda 🇷🇼 — v2.1
+# Isoko Online Rwanda
 
-A mobile-first marketplace for everyday products in Rwanda. Prices are entered and displayed in Rwandan francs (RWF). Buyers can browse listings, filter categories, search, add products to a cart and contact the seller through WhatsApp.
-
-## Product categories
-
-- Food and drinks: water, cooking oil, rice, sugar, milk and other household basics.
-- Beauty and hygiene: body lotion, perfume, soap and personal-care products.
-- Men's and women's clothing, children's clothing and shoes.
-- Bags, phones, radios and other small electronics.
-- Household goods and second-hand/occasion items.
-
-The home page contains clearly labelled sample listings when the database has no live listings. Sample items are examples only: they are not seller offers, cannot be ordered and must not be treated as verified prices or stock.
+Mobile-first Rwanda marketplace built with HTML, CSS, JavaScript, Supabase Auth, Supabase Database, and Supabase Storage. Product prices are in RWF. Buyers can discover products and contact sellers through WhatsApp. Pi identity support is Testnet-only.
 
 ## Included
+- Public product and store discovery with search and categories.
+- Email/password account registration and login.
+- Free seller registration and one store per seller.
+- Seller product upload with JPG, PNG, and WebP images (maximum 5 MB).
+- Product moderation: new products remain pending until an Admin approves them.
+- Seller sales reporting with payment reference and notes.
+- Admin review of reported sales; verified sales create a one-time 3% commission ledger entry.
+- Seller commission summary and report history.
+- Admin view of stores, pending products, pending sale reports, total commission, collection status, and activity history.
+- Row Level Security for seller-owned records.
+- Pi Network identity verification through a Supabase Edge Function in Testnet mode only.
 
-- Responsive mobile-first homepage, search and category filters.
-- Supabase email/password sign-up and sign-in.
-- Seller store registration with district/location and WhatsApp contact.
-- Product publishing with RWF price, category, stock, new/occasion condition and photo upload.
-- Public image storage bucket (`isoko-products`).
-- Shopping cart and WhatsApp order enquiry for products from one store.
-- Supabase Row Level Security policies for public listings and seller-owned writes.
-- Privacy and Terms starter pages.
+## Commission rule
+The marketplace commission is **3% of the reported product sale amount**. The commission is created only when an authorized Admin independently verifies that the customer paid. The seller retains the remaining 97% of the product sale amount. Delivery fees are not included. In this WhatsApp-based release, the buyer pays the seller directly; the platform does not automatically collect or split funds. The seller settles the 3% commission separately under the agreed arrangement, and Admin records receipt only after the money is actually received.
 
-## 1. Supabase setup (required for real listings)
+## Important payment limitation
+This version uses WhatsApp to contact the seller. It does not yet connect to a live Mobile Money, bank, or Pi payment gateway. A seller report does not prove that payment happened. Admin must check the payment independently before confirming the sale. Pi connection verifies identity only; it does not transfer Pi or verify a purchase.
 
-1. Open the Supabase project used by this app.
-2. Open **SQL Editor**.
-3. Paste and run the complete `schema.sql` file from this ZIP. It creates/updates `isoko_stores`, `isoko_products`, RLS policies and the `isoko-products` image bucket. It does not delete the older `stores` or `products` tables.
-4. In **Authentication → Providers**, enable Email.
-5. In **Authentication → URL Configuration**, add the deployed HTTPS website URL to Site URL and Redirect URLs.
-6. In **Storage**, confirm the public bucket `isoko-products` exists.
+## Setup
+1. Deploy the project as a static site (for example, Vercel).
+2. In the correct Supabase project, run the complete `schema.sql` in SQL Editor.
+3. Enable Supabase Email authentication and configure the site and redirect URLs.
+4. Create the owner account through the app.
+5. Add the owner's Auth UUID to `public.isoko_admins` using the SQL in `launch-checklist.md`.
+6. Sign out and sign in again. The Admin menu should appear for that account.
+7. Deploy the `supabase/functions/pi-auth` Edge Function only if Pi Testnet identity is needed.
 
-The project currently contains a Supabase publishable/anon key in `script.js`. This key is intended for browser use; access is controlled by RLS. Never place a service-role key in frontend files.
-
-## 2. How to add products
-
-1. Open the deployed site and choose **Tangira gucuruza / Start selling**.
-2. Create an account or sign in.
-3. Register your store: store name, description, district/location and WhatsApp number in international format, e.g. `2507XXXXXXXX`.
-4. Fill the product form: name, description, RWF price, category, available stock and condition (new or occasion).
-5. Select a JPG, PNG or WebP photo (maximum 5 MB), or provide a secure image URL.
-6. Press **Bika igicuruzwa**. The item will be listed publicly after Supabase accepts it.
-
-## 3. Buyer flow
-
-Search or select a category, open the product list and add real seller listings to the cart. WhatsApp checkout currently supports products from one store at a time. The buyer and seller confirm availability, delivery, and payment arrangements directly. The website does not collect money or guarantee delivery.
-
-## 4. Deploy to GitHub and Vercel
-
-- Upload the contents of this folder to the root of the GitHub repository (so `index.html`, `script.js`, `style.css` and `schema.sql` are at the repository root).
-- Import or reconnect that repository in Vercel.
-- Use the project root as the Root Directory. No build command is required; this is a static site. Output Directory should be the project root / default.
-- Deploy after running the Supabase SQL migration.
-
-## 5. Important limitations and launch checks
-
-- Sample products are examples only and are never stored as seller stock.
-- Prices are RWF. Pi Network checkout is not enabled in this RWF marketplace build.
-- WhatsApp checkout opens a message to the seller; it does not create a verified payment or delivery record.
-- Confirm that store phone numbers belong to the sellers and that photos/descriptions/prices are accurate.
-- Add a real monitored support contact and have the Privacy and Terms pages reviewed before public launch.
-- Test account creation, sign-in, store registration, image upload, product publishing, search, cart and WhatsApp contact on a phone.
+See `launch-checklist.md` for setup and security tests.
 
 ## Local check
-
-Node.js 20+:
+Requires Node.js 20 or newer:
 
 ```bash
 npm run check
 ```
+
+## Configuration
+The Supabase project URL and publishable/anon key are configured in `script.js`. These are browser-facing values; never put a Supabase service-role key in frontend code. Keep secrets in Supabase Edge Function secrets.
+
+
+## WhatsApp merchant invitations (v2.4)
+- Admin can paste Rwanda phone numbers (one per line, comma or semicolon separated).
+- The app validates Rwanda mobile number formats and prepares a fixed invitation in Kinyarwanda with the marketplace URL and 3% commission explanation.
+- Admin opens one WhatsApp conversation at a time, sends the prefilled message in WhatsApp, then advances to the next number.
+- WhatsApp requires the sender to press Send; this website cannot silently send messages from a personal WhatsApp account. Use invitations only for people who have agreed to receive them.
