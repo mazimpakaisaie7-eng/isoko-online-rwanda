@@ -56,11 +56,12 @@ async function uploadProductImage(file){if(!file)return '';if(!['image/jpeg','im
 async function saveProduct(e){e.preventDefault();if(!state.user||!state.store){setStatus('sellerMessage','Banza wandikishe iduka ryawe.','warning');return;}const btn=$('productForm').querySelector('button[type="submit"]');btn.disabled=true;try{const file=$('productImageFile').files[0];const imageUrl=file?await uploadProductImage(file):safeImage($('productImage').value);const payload={store_id:state.store.id,owner_id:state.user.id,name:$('productName').value.trim(),description:$('productDescription').value.trim(),price_rwf:Number($('productPrice').value),category:$('productCategory').value,image_url:imageUrl,condition:$('productCondition').value,stock:Number($('productStock').value),active:true};if(!Number.isSafeInteger(payload.price_rwf)||payload.price_rwf<1)throw new Error('Andika igiciro kirenze 0 RWF.');if(!Number.isInteger(payload.stock)||payload.stock<0)throw new Error('Andika umubare w’ibicuruzwa uri hagati ya 0 no hejuru.');const {error}=await initSupabase().from('isoko_products').insert(payload);if(error)throw error;$('productForm').reset();setStatus('sellerMessage','Igicuruzwa cyashyizwe ku isoko neza.','success');await loadData();}catch(err){setStatus('sellerMessage',err.message||'Ntibyashobotse kubika igicuruzwa.','error');}finally{btn.disabled=false;}}
 function sendMerchantInvite(e){
  e.preventDefault();
- const raw=clean($('invitePhone').value).replace(/[\\s().-]/g,'');
- let phone=raw.replace(/^\\+/,'');
- if(/^07[2389]\\d{7}$/.test(phone)) phone='250'+phone.slice(1);
- if(!/^2507[2389]\\d{7}$/.test(phone)){
-   setStatus('inviteMessage','Nimero siyo yo mu Rwanda. Andika nka 078XXXXXXX cyangwa 25078XXXXXX.','error');
+ // Accept Rwanda mobile numbers in local (078XXXXXXX) or international (+25078XXXXXXX / 25078XXXXXXX) format.
+ const raw=clean($('invitePhone').value).replace(/[\s().-]/g,'');
+ let phone=raw.replace(/^\+/,'');
+ if(/^07\d{8}$/.test(phone)) phone='250'+phone.slice(1);
+ if(!/^2507\d{8}$/.test(phone)){
+   setStatus('inviteMessage','Nimero siyo cyangwa ntiyuzuye. Andika imibare 10 nka 078XXXXXXX cyangwa 12 nka 25078XXXXXXX.','error');
    return;
  }
  const message='Muraho! Muratumiwe gukoresha ISOKO ONLINE RWANDA 🇷🇼\\n\\nKwamamaza no kugurisha ibicuruzwa byanyu kuri internet biroroshye. Fungura iduka ku buntu, shyiraho ibicuruzwa byawe, maze ugere ku bakiriya benshi.\\n\\nKwiyandikisha ni ubuntu. Komiseri ya 3% ibarwa ku bicuruzwa byagurishijwe kandi byemejwe ko byishyuwe.\\n\\nTangirira hano: https://isoko-online-rwanda.vercel.app/\\n\\nISOKO ONLINE RWANDA — Isoko ryawe kuri internet!';
